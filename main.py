@@ -5,7 +5,7 @@ pygame.font.init()
 WIDTH = 480
 HEIGHT = 570
 screen = pygame.display.set_mode((WIDTH,HEIGHT))
-pygame.display.set_caption("Mizickova hra")
+pygame.display.set_caption("TETRIS")
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 RED = (255,0,0)
@@ -64,7 +64,7 @@ class Grid:
                 col = self.figure.x + p%4
                 self.grid[row][col] = self.figure.color
     def check_grid(self):
-
+        global score
         r = len(self.grid)-1
         for row in reversed(range(len(self.grid))):
             is_filled = True
@@ -72,6 +72,7 @@ class Grid:
                 if self.grid[row][col]==0:
                     is_filled=False
             if is_filled:
+                score+=5
                 for col in range(len(self.grid[row])):
                     self.grid[row][col] = 0
                 for row in (range(r,1,-1)):
@@ -143,6 +144,7 @@ def draw_screen(screen,score,game_state):
         over = over_font.render("YOU HAVE LOST,PRESS ENTER TO RESTART",1,RED)
         screen.blit(over,(WIDTH//2-over.get_width()/2,HEIGHT//2-20))
 def main():
+    global score
     run = True
     score = 0
     pressing_down = False
@@ -157,7 +159,7 @@ def main():
         if counter > 2500:
             counter = 0
 
-        if counter % (10) == 0 or pressing_down:
+        if counter % (5) == 0 or pressing_down:
             if game_state == True:
                 g.down()
 
